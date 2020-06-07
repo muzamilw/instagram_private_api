@@ -552,3 +552,34 @@ class Client(AccountsEndpointsMixin, DiscoverEndpointsMixin, FeedEndpointsMixin,
                 error_response=json.dumps(json_response))
 
         return json_response
+    
+    def login_challenge(self, checkpoint_url):
+
+        try:
+            headers = self.default_headers
+            print('redirecting to ..', checkpoint_url)
+            headers['X-CSRFToken'] = self.csrftoken
+            headers['Referer'] = checkpoint_url
+            
+            mode = int(input('Choose a challenge mode (0 - SMS, 1 - Email): '))
+            challenge_data = {'choice': mode}
+            data = compat_urllib_parse.urlencode(challenge_data).encode('ascii')
+            
+            req = compat_urllib_request.Request(checkpoint_url, data, headers=headers)
+            response = self.opener.open(req, timeout=self.timeout)
+
+            code = input('Enter code received: ')
+            code_data = {'security_code': code}
+            data = compat_urllib_parse.urlencode(code_data).encode('ascii')
+
+            req = compat_urllib_request.Request(checkpoint_url, data, headers=headers)
+            response = self.opener.open(req, timeout=self.timeout)
+
+            if response.info().get('Content-Encoding') == 'gzip':
+                buf = BytesIO(response.read())
+                res = gzip.GzipFile(fileobj=buf).read().decode('utf8')
+            else:
+                res = response.read().decode('utf8')
+    
+        except compat_urllib_error.HTTPError as e:
+            print('unhandled exception', e)
