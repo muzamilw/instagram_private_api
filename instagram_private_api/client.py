@@ -73,9 +73,11 @@ class Client(AccountsEndpointsMixin, DiscoverEndpointsMixin, FeedEndpointsMixin,
 
     def __init__(self, username, password, **kwargs):
         """
+
         :param username: Login username
         :param password: Login password
         :param kwargs: See below
+
         :Keyword Arguments:
             - **auto_patch**: Patch the api objects to match the public API. Default: False
             - **drop_incompat_key**: Remove api object keys that is not in the public API. Default: False
@@ -258,6 +260,7 @@ class Client(AccountsEndpointsMixin, DiscoverEndpointsMixin, FeedEndpointsMixin,
     def generate_useragent(**kwargs):
         """
         Helper method to generate a useragent string based on device parameters
+
         :param kwargs:
             - **app_version**
             - **android_version**
@@ -286,6 +289,7 @@ class Client(AccountsEndpointsMixin, DiscoverEndpointsMixin, FeedEndpointsMixin,
     def validate_useragent(value):
         """
         Helper method to validate a useragent string for format correctness
+
         :param value:
         :return:
         """
@@ -410,6 +414,7 @@ class Client(AccountsEndpointsMixin, DiscoverEndpointsMixin, FeedEndpointsMixin,
     def _generate_signature(self, data):
         """
         Generates the signature for a data string
+
         :param data: content to be signed
         :return:
         """
@@ -421,6 +426,7 @@ class Client(AccountsEndpointsMixin, DiscoverEndpointsMixin, FeedEndpointsMixin,
     def generate_uuid(cls, return_hex=False, seed=None):
         """
         Generate uuid
+
         :param return_hex: Return in hex format
         :param seed: Seed value to generate a consistent uuid
         :return:
@@ -439,6 +445,7 @@ class Client(AccountsEndpointsMixin, DiscoverEndpointsMixin, FeedEndpointsMixin,
     def generate_deviceid(cls, seed=None):
         """
         Generate an android device ID
+
         :param seed: Seed value to generate a consistent device ID
         :return:
         """
@@ -448,6 +455,7 @@ class Client(AccountsEndpointsMixin, DiscoverEndpointsMixin, FeedEndpointsMixin,
         """
         Generate an Advertising ID based on the login username since
         the Google Ad ID is a personally identifying but resettable ID.
+
         :return:
         """
         modified_seed = seed or self.authenticated_user_name or self.username
@@ -462,6 +470,7 @@ class Client(AccountsEndpointsMixin, DiscoverEndpointsMixin, FeedEndpointsMixin,
     def _read_response(response):
         """
         Extract the response body from a http response.
+
         :param response:
         :return:
         """
@@ -475,6 +484,7 @@ class Client(AccountsEndpointsMixin, DiscoverEndpointsMixin, FeedEndpointsMixin,
     def _call_api(self, endpoint, params=None, query=None, return_response=False, unsigned=False, version='v1'):
         """
         Calls the private api.
+
         :param endpoint: endpoint path that should end with '/', example 'discover/explore/'
         :param params: POST parameters
         :param query: GET url query parameters
