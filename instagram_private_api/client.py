@@ -88,6 +88,7 @@ class Client(AccountsEndpointsMixin, DiscoverEndpointsMixin, FeedEndpointsMixin,
             - **on_login**: Callback after successful login
             - **proxy**: Specify a proxy ex: 'http://127.0.0.1:8888' (ALPHA)
             - **proxy_handler**: Specify your own proxy handler
+            - **login_challenge_SelectOptions**: Callback Select Options after login_challenge
         :return:
         """
         self.username = username
@@ -98,6 +99,8 @@ class Client(AccountsEndpointsMixin, DiscoverEndpointsMixin, FeedEndpointsMixin,
         self.timeout = kwargs.pop('timeout', 15)
         self.on_login = kwargs.pop('on_login', None)
         self.logger = logger
+        self.login_challenge_Phase1 = kwargs.pop('login_challenge_Phase1', None)
+        
 
         user_settings = kwargs.pop('settings', None) or {}
         self.uuid = (

@@ -392,3 +392,20 @@ class FriendshipsEndpointsMixin(object):
             'friendships/remove_follower/{user_id!s}/'.format(**{'user_id': user_id}),
             params=params)
         return res
+
+    def mute_unmute(self, user_id, option = 'mute', media = 'both'):
+        endpoint = 'friendships/{}_posts_or_story_from_follow/'.format(option.lower())
+        data = {
+                '_uuid': self.uuid,
+                '_uid': self.authenticated_user_id,
+                '_csrftoken': self.csrftoken,
+                }
+        if media.lower() == 'post':
+            data['target_posts_author_id'] = str(user_id)
+        elif media.lower() == 'story':
+            data['target_reel_author_id'] = str(user_id)
+        elif media.lower() == 'both':
+            data['target_posts_author_id'] = str(user_id)
+            data['target_reel_author_id'] = str(user_id)
+        res = self._call_api(endpoint, data)
+        return res
