@@ -72,7 +72,7 @@ class AccountsEndpointsMixin(object):
             except compat_urllib_error.HTTPError as e:
                 response_text = json.loads(e.read().decode('utf8'))
                 checkpoint_url = response_text.get('challenge').get('url')
-                self.login_challenge_Phase1(checkpoint_url, headers)
+                self.login_challenge(checkpoint_url, headers)
             if self.on_login:
                 on_login_callback = self.on_login
                 on_login_callback(self)
